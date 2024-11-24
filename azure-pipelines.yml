@@ -1,0 +1,25 @@
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - task: UseNode@2
+    inputs:
+      version: '16.x'
+
+  - script: |
+      npm install
+      npm run build
+    displayName: 'Instalar dependencias y construir'
+
+  - script: |
+      npm test
+    displayName: 'Ejecutar pruebas'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathToPublish: 'dist'
+      artifactName: 'drop'
+      publishLocation: 'Container'
